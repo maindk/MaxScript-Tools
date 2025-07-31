@@ -83,13 +83,32 @@ fn logging f =
   )
   subobjectLevel = 0
 
+  --Gets UV Channel Count
+  uvChannels <= 2 or uvChannes >= 4 then
+  (
+    uvChannelMessage = "Missing LIghtmap Channel or too many Channels"
+  )
+  else
+  (
+    uvChannelMessage = "Correct"
+  )
 
+  --Gets Materials
+  if obj.material != undefined then
+  (
+    objMtlCheck = obj.material.name
+    if (MatchPattern objMtlCheck pattern; "Multi*") then
+    (
+      objMaterial = obj.material.materialList as string
+    )
+    else
+    (
+      objMaterial = objMtlCheck
+    )
+  )
 
-
-
-
-
-
+  --gets file location
+  file_Location = f as string
 
   )
 )
