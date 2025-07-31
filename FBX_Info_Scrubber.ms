@@ -29,6 +29,21 @@ fn logging f =
   (
     objPosTF = "Not Correct"
   )
-  )
 
+  --gets objects scale
+  objScale = obj.scale
+  objScale_X = obj.scale.x as string
+  objScale_Y = obj.scale.y as string
+  objScale_Z = obj.scale.z as string
+  objScaleXYZ = ("X:" + objScale_X + "|Y:" + objScale_Y + "|Z:" + objScale_Z)
+  if objScaleXYZ == ""X:1.0|Y:1.0|Z:1.0"" then
+  (
+    objScaleTF = "Correct"
+  )
+  else
+  (
+    objScaleTF = "Not Correct"
+  )
+  
+  )
 )
