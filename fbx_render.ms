@@ -64,3 +64,59 @@ fn importFunctions = --imports the objects
   global formatType = getFilenameType importedFBX
   global filePath - getFilenamePath importedFBX
 )
+
+fn cam_Setup camArray filePath pngfileFormat obj = --sets up the camarray, creats the cameras to render from and exports the rendered iages to where the object is imported from
+(
+  global camArray = #()"Front_Cam", "Back_Cam", "Left_Cam", "Right_Cam", "Ortho_Cam"
+  --cameras
+  renderOutputDirectory = filePath
+  print("Render: " + renderOutputDirectory)
+
+  deleteFile (renderOutputDirectory + "\\* + pngFileFormat)
+
+  Front_Cam = Targetcamera pos:[0,-45,0] target:(Targetobject pos:[0,0,0]) name:"Front_Cam"
+  Right_Cam = Targetcamera pos:[45,0,0] target:(Targetobject pos:[0,0,0]) name:"Right_Cam"
+  Back_Cam = Targetcamera pos:[0,-45,0] target:(Targetobject pos:[0,0,0]) name:"Back_Cam"
+  Left_Cam = Targetcamera pos:[-45,0,0] target:(Targetobject pos:[0,0,0]) name:"Left_Cam"
+  Ortho_Cam = Targetcamera pos:[30,30,30] target:(Targetobject pos:[0,0,0]) name:"Ortho_Cam"
+
+  --front camera
+  frontCamObj = getNodeByName camArray[1]
+  frontCamBatch = batchRenderMgr.CreateView frontCamobj
+  frontNameCam = frontCamObj.name
+  frontCamBatch.name = frontNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + frontNameCam + pngFileFormat)
+  frontCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + frontNameCam + pngfileFormat)
+
+  --back camera
+  backCamObj = getNodeByName camArray[2]
+  backCamBatch = batchRenderMgr.CreateView backCamObj
+  backNameCam = backCamObj.name
+  backCamBatch.name = backNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + backNameCam + pngFileFormat)
+  backCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + backNameCam + pngfileFormat)
+
+  --front camera
+  frontCamObj = getNodeByName camArray[1]
+  frontCamBatch = batchRenderMgr.CreateView frontCamobj
+  frontNameCam = frontCamOj.name
+  frontCamBatch.name = frontNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + frontNameCam + pngFileFormat)
+  frontCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + frontNameCam + pngfileFormat)
+
+  --front camera
+  frontCamObj = getNodeByName camArray[1]
+  frontCamBatch = batchRenderMgr.CreateView frontCamobj
+  frontNameCam = frontCamOj.name
+  frontCamBatch.name = frontNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + frontNameCam + pngFileFormat)
+  frontCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + frontNameCam + pngfileFormat)
+
+  --front camera
+  frontCamObj = getNodeByName camArray[1]
+  frontCamBatch = batchRenderMgr.CreateView frontCamobj
+  frontNameCam = frontCamOj.name
+  frontCamBatch.name = frontNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + frontNameCam + pngFileFormat)
+  frontCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + frontNameCam + pngfileFormat)
+)
