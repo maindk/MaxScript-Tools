@@ -16,7 +16,19 @@ fn logging f =
   objName = obj.name as string
 
   --gets Objetcs position
-  
+  obj_pos_X = (coordsys world obj.pos.x) as string
+  obj_pos_Y = (coordsys world obj.pos.y) as string
+  obj_pos_Z = (coordsys world obj.pos.z) as string
+  obj_pos_XYZ = ("X:" + objpos_X + "|Y:" + objpos_Y + "|Z:" + objpos_Z)
+
+  if objposXYZ == "X:0.0|Y:0.0|Z:0.0" then
+  (
+    objPosTF = "Correct"
+  )
+  else
+  (
+    objPosTF = "Not Correct"
+  )
   )
 
 )
