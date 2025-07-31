@@ -96,27 +96,44 @@ fn cam_Setup camArray filePath pngfileFormat obj = --sets up the camarray, creat
   deleteFile (renderOutputDirectory + obj.name + "_" + backNameCam + pngFileFormat)
   backCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + backNameCam + pngfileFormat)
 
-  --front camera
-  frontCamObj = getNodeByName camArray[1]
-  frontCamBatch = batchRenderMgr.CreateView frontCamobj
-  frontNameCam = frontCamOj.name
-  frontCamBatch.name = frontNameCam
-  deleteFile (renderOutputDirectory + obj.name + "_" + frontNameCam + pngFileFormat)
-  frontCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + frontNameCam + pngfileFormat)
+  --Left camera
+  leftCamObj = getNodeByName camArray[3]
+  leftCamBatch = batchRenderMgr.CreateView leftCamobj
+  leftNameCam = leftCamObj.name
+  eftCamBatch.name = leftNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + leftNameCam + pngFileFormat)
+  leftCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + leftNameCam + pngfileFormat)
 
-  --front camera
-  frontCamObj = getNodeByName camArray[1]
-  frontCamBatch = batchRenderMgr.CreateView frontCamobj
-  frontNameCam = frontCamOj.name
-  frontCamBatch.name = frontNameCam
-  deleteFile (renderOutputDirectory + obj.name + "_" + frontNameCam + pngFileFormat)
-  frontCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + frontNameCam + pngfileFormat)
+  --Right camera
+  rightCamObj = getNodeByName camArray[4]
+  rightCamBatch = batchRenderMgr.CreateView rightCamobj
+  rightNameCam = rightCamObj.name
+  rightCamBatch.name = rightNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + rightNameCam + pngFileFormat)
+  rightCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + rightNameCam + pngfileFormat)
 
-  --front camera
-  frontCamObj = getNodeByName camArray[1]
-  frontCamBatch = batchRenderMgr.CreateView frontCamobj
-  frontNameCam = frontCamOj.name
-  frontCamBatch.name = frontNameCam
-  deleteFile (renderOutputDirectory + obj.name + "_" + frontNameCam + pngFileFormat)
-  frontCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + frontNameCam + pngfileFormat)
+  --Ortho camera
+  orthoCamObj = getNodeByName camArray[5]
+  orthoCamBatch = batchRenderMgr.CreateView orthoCamobj
+  orthoNameCam = orthoCamObj.name
+  orthoCamBatch.name = orthoNameCam
+  deleteFile (renderOutputDirectory + obj.name + "_" + orthoNameCam + pngFileFormat)
+  orthoCamBatch.outputFilename = renderOutputDirectory + obj.name + "_" + orthoNameCam + pngfileFormat)
+
+  --renders the Images
+  batchRenderMgr.render()
+  --removes the batch cams
+  if batchRenderMgr.numViews != 0 do
+  (
+    for v = 1 to batchRenderMgr.numViews do
+    (
+      batchRenderMgr.DeleteView 1
+    )
+  )
+
+  --removes cameras
+  delete cameras
+
+  --closes the render view
+  actionMan.executeAction 0 "348"
 )
