@@ -1,3 +1,5 @@
+--This is a tool that helps QA FBX items from  repository
+
 fn reet_Scene = --resets the scene function
 (
 delete objects
@@ -44,6 +46,50 @@ fn logging f =
   (
     objScaleTF = "Not Correct"
   )
-  
+
+  --Gets the Objects poly count
+  objNumFace = obj.numfaces
+
+  --Gets the Vertex count
+  objNumVerts = obj.numVerts
+
+  --checks if dead structures are in the file
+  if polyop.getHasDeadStructs obj > 0 then
+  (
+    deadstructs = True
+  )
+  else
+  (
+    deadstructs = False
+  )
+
+  --Checks for UV overlapping in the light channel
+  channelInfo.CopyChannel obj 3 2
+  channelInfo.PasteChannel obj 3 1
+  channelInfo.NameChannel obj 3 1 "-none-"
+  macros.run "Modifier Stack" "Convert_to_Poly"
+  macros.run "xView" "xView_Overlapped_UVW_Faces_Checker"
+  macros.run "xView" "xView_Select_Results"
+  subobjectLEvel = 4
+  macros.run "xView" "xView_Overlapped_UVW_Faces_Checker"
+  selectedFace = obj.selectedFaces
+  if selectedFace.count >0 then
+  (
+    overlapperUV = "Overlap UV Detected"
+  )
+  else
+  (
+    overlappingUV = "Correct"
+  )
+  subobjectLevel = 0
+
+
+
+
+
+
+
+
+
   )
 )
