@@ -273,5 +273,28 @@ for importedFBX in theFiles do
   print("~~~" + importedFBX + ": Started~~~")
 
   for dummyObj in objects do
+  (
+    if classOf dummyObj == Dummy do
+    (
+      select (for geoObj in objects where superClassOf obj == GeometryClass collect obj)
+      max unlink
+      select (for dummyObj in objects where superClassOf obj == helper and classOf obj == dummy collect obj)
+      delete helpers
+    )
+  )
 
+  combine()
+
+  Object_Reset()
+
+  bounding_Box_Measure()
+
+  for obj in objects do
+  (
+    obj.material = meditMaterials[1]
+
+  cam_Setup camArray filePath pngfileFormat obj importedFBX
+  )
+  reset_Scene()
+  print("~~~" + importedFBX + ": processed~~~")
 )
