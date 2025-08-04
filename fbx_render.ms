@@ -260,3 +260,18 @@ global theFiles = getFiles (rootFolder + filePattern) recurse:true
 
 totalFileCount = theFiles.count
 
+global ProgressCount = 0
+
+for importedFBX in theFiles do
+(
+  importfile importedFBX #noprompt
+
+  global filePath = getFilenamePath importedFBX
+
+  progressCount += 1
+
+  print("~~~" + importedFBX + ": Started~~~")
+
+  for dummyObj in objects do
+
+)
