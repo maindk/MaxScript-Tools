@@ -218,3 +218,45 @@ pinkMat.Diffuse = (color 255 0 255)
 )
 
 fn Combine = --combines the object if it comes in with multiple
+(
+  sceneObjects = for obj in objects collect obj
+
+  if sceneObjects.count > 0 then
+    (
+      targetObj = sceneObjects[1]
+    )
+
+  if classOf targetObj != Editable_Poly and classOf targetObjects != Editable_mesh then
+    (
+      converToPoly targetObj
+    )
+  
+  for i =2 to sceneObjects.count do
+  (
+    currentObject = sceneObjects[i]
+
+      if currentObjecy != targetObj then
+    (
+      polyop.attach targetObj currentObjetct
+    )
+  )
+)
+
+--reset the scene
+  reset_Scene()
+----------------------------------------
+--sets up the render scene
+  global_Renders_Settings()
+--------------------------------------
+
+--Directories
+rootFOlder = getSavepath Captin: "Choose Folder Location" initialDir:(getDir #scene)
+
+--calls for filetype to look for
+global filepattern = "\\*.fbx"
+
+--creats the directory to crrate the loop in
+global theFiles = getFiles (rootFolder + filePattern) recurse:true
+
+totalFileCount = theFiles.count
+
