@@ -137,3 +137,84 @@ fn cam_Setup camArray filePath pngfileFormat obj = --sets up the camarray, creat
   --closes the render view
   actionMan.executeAction 0 "348"
 )
+
+fn bounding_Box_Measure = --measures the imported object and scales them to fit the rneder area for tha camera
+(
+  --grabs the measurements of the bounding box
+  for measureObj in objects do
+  (
+    global intScale =1
+    bb = nodeLocalBoundingBox measureObj
+    pmin = bb[1]
+    pmax = bb[2]
+    global dx = (pmax.x - pmin.x)
+    global dy = (pmax.y - pmin.y)
+    global dz = (pmax.z - pmin.z)
+
+    if dx > 30 or dy > 30 or dz > 30 then
+    (
+      intScale - .75
+    )
+    else if dx > 30 or dy > 30 or dz > 30 then
+    (
+      intScale - .75
+    )
+  )
+)
+
+fn matAssignment camArray obj = --converts the pyhiscal base material ot a standard legacy material. Assgins the texturemap to that material and assigns it on the object. This is still broken
+(
+  global pinkMat = Standardmaterial name:"PinkMaterial
+  global importedTextureMap = Standardmaterial name:"IMported_TextureMap"
+
+  if importedFBX != undefined do
+  (
+    importedFBX = tgaFiles[1]
+  )
+  else
+  (
+    print("tgas are empty")
+  )
+
+  if pngFiles.count != o then
+  (
+    realFileFound = false
+    position =1
+    While not realFileFound do
+    (
+      flagExclude = false
+      for cA in camArray do
+      (
+        if (pngFils[position] == undeifned) then
+        (
+          realFileFound = true
+          fladExlude = true
+        )
+        else if (findString pngFiles[position] cA) != undefined do
+        (
+          flagExclude = true
+        )
+      )
+      if not flagExclude do
+      (
+        importedFBX = pngFiles[position]
+        realFileFound = true
+      )
+      position = position +1
+    )
+  )
+
+  if tifFiles.count != 0 then
+  (
+    importedFBX = tifFiles[1]
+  )
+  else 
+  (
+    print("tiffs are empty")
+  )
+
+importedTextureMap.Diffusemap = Bitmaptexture filename: importedFBX
+pinkMat.Diffuse = (color 255 0 255)
+)
+
+fn Combine = --combines the object if it comes in with multiple
