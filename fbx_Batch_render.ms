@@ -38,16 +38,14 @@ fn global_Renders_Settings = --sets up the render scene
 
 fn importFunctions = --imports the objects
 (
-  (
-  global pngfileFormat = ".png"
-  global pngfileFormat = ".tga"
-  global pngfileFormat = ".tif"
+  --global pngfileFormat = ".png"
+  --global pngfileFormat = ".tga"
+  --global pngfileFormat = ".tif"
 
-  global pngfileFormat = ".png"
-  types:"FBX (*.fbx) | *.fbx"
-  importFile importedFBX #noPrompt
-  FBXImporterSetParam "UpAxis" "Z"
-  )
+  --global importedFBX = getOpenFileName \
+  --types:"FBX (*.fbx) | *.fbx"
+  --importFile importedFBX #noPrompt
+  --FBXImporterSetParam "UpAxis" "Z"
 
   for dummyObj in objetcs do
   (
@@ -59,10 +57,18 @@ fn importFunctions = --imports the objects
       delete helpers
     )
   )
+    --global filePath = getFilenamePath importedFBX
+)
 
-  global baseName = trimRight (getFilenameFile importFBX)
-  global formatType = getFilenameType importedFBX
-  global filePath - getFilenamePath importedFBX
+fn Object_Reset = 
+(
+  unhide objects
+
+  convertTo objects Editable_Poly
+  CenterPivot objects
+
+  objects.pos = [0,0,0]
+  max zoomext sel
 )
 
 fn cam_Setup camArray filePath pngfileFormat obj = --sets up the camarray, creats the cameras to render from and exports the rendered iages to where the object is imported from
@@ -122,6 +128,7 @@ fn cam_Setup camArray filePath pngfileFormat obj = --sets up the camarray, creat
 
   --renders the Images
   batchRenderMgr.render()
+
   --removes the batch cams
   if batchRenderMgr.numViews != 0 do
   (
@@ -159,6 +166,8 @@ fn bounding_Box_Measure = --measures the imported object and scales them to fit 
     (
       intScale - .75
     )
+
+    measureObj.scale = [intScale,intScale,intScale]
   )
 )
 
@@ -169,37 +178,43 @@ fn matAssignment camArray obj = --converts the pyhiscal base material ot a stand
 
   if importedFBX != undefined do
   (
-    importedFBX = tgaFiles[1]
-  )
-  else
-  (
-    print("tgas are empty")
-  )
+    tgaFile = getFiles (filePath + "\\*" + tgafileFormat) recurse:true
+    pngFile = getFiles (filePath + "\\*" + pngfileFormat) recurse:true
+    tifFile = getFiles (filePath + "\\*" + tiffileFormat) recurse:true
 
-  if pngFiles.count != o then
-  (
-    realFileFound = false
-    position =1
-    While not realFileFound do
+    if tgaFiles.count != 0 then
     (
-      flagExclude = false
-      for cA in camArray do
+      importedFBX = tgaFiles[1]
+    )
+    else
+    (
+      print("tgas are empty")
+    )
+
+    if pngFiles.count != o then
+    (
+      realFileFound = false
+      position =1
+      While not realFileFound do
       (
-        if (pngFils[position] == undeifned) then
+        flagExclude = false
+        for cA in camArray do
         (
-          realFileFound = true
-          fladExlude = true
+          if (pngFils[position] == undeifned) then
+          (
+            realFileFound = true
+            flagExlude = true
+          )
+          else if (findString pngFiles[position] cA) != undefined do
+          (
+            flagExclude = true
+          )
         )
-        else if (findString pngFiles[position] cA) != undefined do
+        if not flagExclude do
         (
-          flagExclude = true
-        )
-      )
-      if not flagExclude do
-      (
         importedFBX = pngFiles[position]
         realFileFound = true
-      )
+        )
       position = position +1
     )
   )
@@ -213,8 +228,9 @@ fn matAssignment camArray obj = --converts the pyhiscal base material ot a stand
     print("tiffs are empty")
   )
 
-importedTextureMap.Diffusemap = Bitmaptexture filename: importedFBX
-pinkMat.Diffuse = (color 255 0 255)
+  importedTextureMap.Diffusemap = Bitmaptexture filename: importedFBX
+  pinkMat.Diffuse = (color 255 0 255)
+  )
 )
 
 fn Combine = --combines the object if it comes in with multiple
@@ -250,7 +266,7 @@ fn Combine = --combines the object if it comes in with multiple
 --------------------------------------
 
 --Directories
-rootFOlder = getSavepath Captin: "Choose Folder Location" initialDir:(getDir #scene)
+rootFolder = getSavepath Captin: "Choose Folder Location" initialDir:(getDir #scene)
 
 --calls for filetype to look for
 global filepattern = "\\*.fbx"
@@ -269,6 +285,8 @@ for importedFBX in theFiles do
   global filePath = getFilenamePath importedFBX
 
   progressCount += 1
+
+  print((ProgressCoount as string) + "/" + (totalFileCount as string))
 
   print("~~~" + importedFBX + ": Started~~~")
 
@@ -293,7 +311,7 @@ for importedFBX in theFiles do
   (
     obj.material = meditMaterials[1]
 
-  cam_Setup camArray filePath pngfileFormat obj importedFBX
+    cam_Setup camArray filePath pngfileFormat obj importedFBX
   )
   reset_Scene()
   print("~~~" + importedFBX + ": processed~~~")
