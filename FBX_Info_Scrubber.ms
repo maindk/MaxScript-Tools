@@ -1,6 +1,6 @@
 --This is a tool that helps QA FBX items from  repository
 
-fn reet_Scene = --resets the scene function
+fn reset_Scene = --resets the scene function
 (
 delete objects
 delte cameras
